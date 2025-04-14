@@ -105,5 +105,21 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    @DisplayName("should keep on subtracting the entered number when pressing the equals key one more time")
+    void testKeepSubtracting(){
+        Calculator calc = new Calculator();
+
+        calc.pressBinaryOperationKey("-");
+        calc.pressDigitKey(3);
+        calc.pressEqualsKey();
+        calc.pressEqualsKey();
+
+        String expected ="-6";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
 }
 
