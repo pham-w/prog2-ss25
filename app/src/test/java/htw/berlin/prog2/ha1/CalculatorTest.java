@@ -90,5 +90,20 @@ class CalculatorTest {
 
 
     //TODO hier weitere Tests erstellen
+    //Teilaufgabe 1
+    @Test
+    @DisplayName("should change the sign of a positive number")
+    void testChangeSign(){
+        Calculator calc = new Calculator();
+
+        calc.pressBinaryOperationKey("-");
+        calc.pressDigitKey(3);
+        calc.pressEqualsKey();
+
+        String expected ="-3";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
 }
 
