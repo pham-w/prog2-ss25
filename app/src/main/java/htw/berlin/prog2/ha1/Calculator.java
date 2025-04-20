@@ -14,6 +14,10 @@ public class Calculator {
 
     private String latestOperation = "";
 
+    private double latestOperand = 0;
+
+    private boolean hasBeenCalculated = false;
+
     /**
      * @return den aktuellen Bildschirminhalt als String
      */
@@ -34,6 +38,8 @@ public class Calculator {
         if(screen.equals("0") || latestValue == Double.parseDouble(screen)) screen = "";
 
         screen = screen + digit;
+
+        latestOperand = 0;
     }
 
     /**
@@ -118,15 +124,26 @@ public class Calculator {
      * und das Ergebnis direkt angezeigt.
      */
     public void pressEqualsKey() {
-        var result = switch(latestOperation) {
-            case "+" -> latestValue + Double.parseDouble(screen);
-            case "-" -> latestValue - Double.parseDouble(screen);
-            case "x" -> latestValue * Double.parseDouble(screen);
-            case "/" -> latestValue / Double.parseDouble(screen);
+        double currentValue = Double.parseDouble(screen);
+
+        if (!hasBeenCalculated) {
+            latestOperand = currentValue;
+            currentValue = latestValue;
+            hasBeenCalculated = true;
+        }
+
+        double result = switch(latestOperation) {
+            case "+" -> currentValue + latestOperand;
+            case "-" -> currentValue - latestOperand;
+            case "x" -> currentValue * latestOperand;
+            case "/" -> latestOperand == 0 ? Double.NaN : currentValue / latestOperand;
             default -> throw new IllegalArgumentException();
         };
+
         screen = Double.toString(result);
-        if(screen.equals("Infinity")) screen = "Error";
+        latestValue = result;
+
+        if(screen.equals("Infinity") || screen.equals("NaN")) screen = "Error";
         if(screen.endsWith(".0")) screen = screen.substring(0,screen.length()-2);
         if(screen.contains(".") && screen.length() > 11) screen = screen.substring(0, 10);
     }

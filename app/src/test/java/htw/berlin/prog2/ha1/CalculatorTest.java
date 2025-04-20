@@ -93,33 +93,36 @@ class CalculatorTest {
     //Teilaufgabe 1
     @Test
     @DisplayName("should change the sign of a positive number")
-    void testChangeSign(){
+    void testChangeSign() {
         Calculator calc = new Calculator();
 
         calc.pressBinaryOperationKey("-");
         calc.pressDigitKey(3);
         calc.pressEqualsKey();
 
-        String expected ="-3";
+        String expected = "-3";
         String actual = calc.readScreen();
 
         assertEquals(expected, actual);
     }
 
+    //Teilaufgabe 2.1
     @Test
-    @DisplayName("should keep on subtracting the entered number when pressing the equals key one more time")
+    @DisplayName("should keep on subtracting the last operand when pressing the equals key one more time")
     void testKeepSubtracting(){
         Calculator calc = new Calculator();
 
+        calc.pressDigitKey(7);
         calc.pressBinaryOperationKey("-");
         calc.pressDigitKey(3);
         calc.pressEqualsKey();
         calc.pressEqualsKey();
 
-        String expected ="-6";
+        String expected ="1";
         String actual = calc.readScreen();
 
         assertEquals(expected, actual);
     }
+
 }
 
